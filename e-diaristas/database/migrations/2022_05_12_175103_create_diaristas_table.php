@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('numero', 20);
             $table->string('bairro', 50);
             $table->string('complemento', 50)->nullable();
+            $table->string('cidade', 50);
             $table->char('cep', 8);
             $table->char('estado', 2);
             $table->integer('codigo_ibge');

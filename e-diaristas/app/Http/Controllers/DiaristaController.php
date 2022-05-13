@@ -2,11 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Diarista;
 use Illuminate\Http\Request;
 
 class DiaristaController extends Controller
 {
     public function index(){
-        return view('index');
+        $diaristas = Diarista::get();
+
+        return view('index', compact('diaristas'));
+    }
+
+    public function create(){
+
+        return view('create');
     }
 }
