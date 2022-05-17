@@ -4,16 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\DiaristaRequest;
 use App\Models\Diarista;
-use App\Services\ViaCep;
+use App\Services\ViaCEP;
 use Illuminate\Http\Request;
 
 class DiaristaController extends Controller
 {
-    protected ViaCep $viaCep;
-    public function __construct(ViaCep $viaCep)
-    {
-        $this->viaCep = $viaCep;
-    }
+
+    public function __construct(protected ViaCEP $viaCep)
+    {}
     /**
      * Lista as Diarista
      */
@@ -49,7 +47,7 @@ class DiaristaController extends Controller
     /**
      * Mostra o Formulario de Edição populado
      */
-    public function edit(int $id){
+    public function edit($id){
         $diarista = Diarista::findOrFail($id);
         return view('edit', compact('diarista'));
     }
@@ -57,7 +55,7 @@ class DiaristaController extends Controller
     /**
      * Atualiza uma diarista no banco de dados
      */
-    public function update(DiaristaRequest $request, int $id){
+    public function update(DiaristaRequest $request, $id){
         $diarista = Diarista::findOrFail($id);
         $dados = $request->except(['_token', '_method']);
 
@@ -65,6 +63,7 @@ class DiaristaController extends Controller
         $dados['cep'] = str_replace('-', '', $dados['cep']);
         $dados['telefone'] = str_replace(['(', ')', ' ', '-'], '', $dados['telefone']);
         $dados['codigo_ibge'] = $this->viaCep->buscar($dados['cep'])['ibge'];
+
         if($request->hasFile('foto_usuario')){
             $dados['foto_usuario'] = $request->foto_usuario->store('public');
         }
@@ -75,7 +74,7 @@ class DiaristaController extends Controller
     /**
      * Apaga uma diarista do  bando de dados
      */
-    public function destroy(int $id){
+    public function destroy($id){
         $diarista = Diarista::findOrFail($id);
         $diarista->delete();
 

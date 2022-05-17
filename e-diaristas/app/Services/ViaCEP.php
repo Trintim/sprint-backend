@@ -4,7 +4,7 @@ namespace App\Services;
 
 use Illuminate\Support\Facades\Http;
 
-class ViaCep{
+class ViaCEP{
 
     /**
      * Consulta CEP no via cep
@@ -20,11 +20,13 @@ class ViaCep{
         if($resposta->failed()){
             return false;
         }
+
         $dados = $resposta->json();
 
-        if(isset($dados['erro']) && $dados['erro'] === true){
+        if(isset($dados['erro']) && $dados['erro']){
             return false;
         }
+
         return $dados;
     }
 }

@@ -3,13 +3,13 @@
 namespace App\Http\Requests;
 
 use App\Rules\ValidaCep;
-use App\Services\ViaCep;
+use App\Services\ViaCEP;
 use Illuminate\Foundation\Http\FormRequest;
 
 class DiaristaRequest extends FormRequest
 {
-    public ViaCep $viaCep;
-    public function __construct(ViaCep $viaCep)
+    public ViaCEP $viaCep;
+    public function __construct(ViaCEP $viaCep)
     {
         $this->viaCep = $viaCep;
     }
@@ -39,11 +39,12 @@ class DiaristaRequest extends FormRequest
             'numero' => ['required', 'max:20'],
             'bairro' => ['required', 'max:50'],
             'cidade' => ['required', 'max:50'],
-            'cep' => ['required', new ValidaCep($this->viaCep)],
             'estado' => ['required', 'size:2'],
+            'cep' => ['required', new ValidaCep($this->viaCep)],
             'foto_usuario' => ['image'],
         ];
-        if($this->method('post')){
+
+        if($this->isMethod('post')){
             $regras['foto_usuario'] = ['required', 'image'];
         }
 

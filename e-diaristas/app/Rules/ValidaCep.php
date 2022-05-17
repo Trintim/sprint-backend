@@ -2,7 +2,7 @@
 
 namespace App\Rules;
 
-use App\Services\ViaCep;
+use App\Services\ViaCEP;
 use Illuminate\Contracts\Validation\Rule;
 
 class ValidaCep implements Rule
@@ -13,11 +13,9 @@ class ValidaCep implements Rule
      * @return void
      */
     public function __construct(
-        public ViaCep $viaCep
+        public ViaCEP $viaCep
     )
-    {
-        //
-    }
+    {}
 
     /**
      * Determine if the validation rule passes.
@@ -28,8 +26,8 @@ class ValidaCep implements Rule
      */
     public function passes($attribute, $value)
     {
-        $cep['cep'] = str_replace('-', '', $value);
-        return !! $this->viaCep->buscar($value);
+        $cep = str_replace('-', '', $value);
+        return !! $this->viaCep->buscar($cep);
     }
 
     /**
@@ -39,6 +37,6 @@ class ValidaCep implements Rule
      */
     public function message()
     {
-        return 'Cep Inválido!';
+        return 'CEP Inválido';
     }
 }

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\DiaristaRequest;
 use App\Models\Diarista;
-use App\Services\ViaCep;
+use App\Services\ViaCEP;
 use Illuminate\Http\Request;
 
 class BuscaDiaristaCep extends Controller
@@ -15,9 +15,9 @@ class BuscaDiaristaCep extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function __invoke(DiaristaRequest $request, ViaCep $viaCEP)
+    public function __invoke(DiaristaRequest $request, ViaCEP $ViaCEP)
     {
-        $endereco = $viaCEP->buscar($request->cep);
+        $endereco = $ViaCEP->buscar($request->cep);
 
         if($endereco === false){
             return response()->json(['erro'=>'Cep Inválido'], 400);
